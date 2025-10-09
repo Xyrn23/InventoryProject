@@ -149,16 +149,14 @@ function calculateTotals() {
 }
 
 // Calculate change (Handles real-time payment input)
+// Calculate change (Handles real-time payment input)
 function calculateChange(totalAmountFromCart) {
   const paymentInput = document.getElementById("payment");
   const changeElement = document.getElementById("change");
   const checkoutBtn = document.getElementById("checkoutBtn");
 
-  // Get the total from the argument (preferred) or parse the display text (fallback)
   let total = totalAmountFromCart || 0;
 
-  // Fallback: If totalAmountFromCart is undefined (e.g., if called directly from payment input before cart changes),
-  // read the total from the display element. This prevents reading stale data.
   if (total === 0 && cart.length > 0) {
     const totalText = document
       .getElementById("total")
@@ -172,7 +170,7 @@ function calculateChange(totalAmountFromCart) {
   // If the cart is empty or payment is zero
   if (total <= 0) {
     changeElement.textContent = "₱0.00";
-    changeElement.style.color = "#4caf50";
+    changeElement.style.color = "white"; 
     checkoutBtn.disabled = true;
     return;
   }
@@ -183,7 +181,13 @@ function calculateChange(totalAmountFromCart) {
   if (difference >= 0) {
     // Change due
     changeElement.textContent = "₱" + difference.toFixed(2);
-    changeElement.style.color = "#4caf50"; // Green
+    
+    if (difference === 0) {
+      changeElement.style.color = "white";
+    } else {
+      changeElement.style.color = "#4caf50"; // Green
+    }
+    
     checkoutBtn.disabled = false;
   } else {
     // Shortage / Amount due

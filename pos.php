@@ -247,7 +247,7 @@ $outOfStock = $db
 
                     <div class="payment-section">
                         <label for="payment">Payment:</label>
-                        <input type="number" id="payment" placeholder="Enter amount" step="0.01" min="0" onkeyup="calculateChange()">
+                        <input type="number" id="payment" placeholder="Enter amount in Php" step="0.01" min="0" onkeyup="calculateChange()">
 
                         <div class="change-row">
                             <span>Change:</span>

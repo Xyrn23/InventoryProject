@@ -12,15 +12,17 @@ body {
     padding: 15px;
     background: var(--gradient-background);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#001F52", endColorstr="#1F92F0", GradientType=1);
+    overflow: hidden;
 }
 
 h1 {
     margin-bottom: 15px;
     color: white;
     text-align: center;
-    font-size: 2.2em; /* Larger for main heading */
-    font-weight: 600; /* Semibold for headings */
+    font-size: 2.2em; 
+    font-weight: 600; 
     line-height: 1.2;
+    
 }
 
 .product-container {
@@ -398,7 +400,7 @@ h1 {
 
 .pagination-controls {
     text-align: center;
-    margin-top: 95px;
+    margin-top: 50px;
     color: white;
     font-weight: bold;
     font-size: 0.9em;
@@ -517,7 +519,10 @@ h1 {
 #edit_price_wrapper > input[type="number"] {
     appearance: textfield;
 }
-/* Responsive adjustments */
+
+
+
+
 @media (max-width: 1200px) {
     .grid {
         grid-template-columns: repeat(3, 1fr);
