@@ -17,56 +17,82 @@ try {
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     header("Content-Type: application/json");
 
-    if ($_POST["action"] === "process_sale") {
-        $cart = json_decode($_POST["cart"], true);
-        $success = true;
-        $message = "";
+if ($_POST["action"] === "process_sale") {
+    $cart = json_decode($_POST["cart"], true);
+    $subtotal = floatval($_POST["subtotal"] ?? 0);
+    $tax = floatval($_POST["tax"] ?? 0);
+    $total = floatval($_POST["total"] ?? 0);
+    $payment = floatval($_POST["payment"] ?? 0);
+    $change = floatval($_POST["change"] ?? 0);
+    $cashier = $_SESSION["user"] ?? "Unknown";
+    
+    $success = true;
+    $message = "";
 
-        $db->beginTransaction();
+    $db->beginTransaction();
 
-        try {
-            foreach ($cart as $item) {
-                $code = $item["code"];
-                $quantity = $item["quantity"];
+    try {
+        // Generate transaction ID
+        $transactionId = 'TXN-' . date('Ymd-His') . '-' . rand(1000, 9999);
+        
+        // Insert into sales table
+        $stmt = $db->prepare(
+            "INSERT INTO sales (transaction_id, subtotal, tax_amount, total_amount, payment_received, change_given, cashier_name) 
+             VALUES (?, ?, ?, ?, ?, ?, ?)"
+        );
+        $stmt->execute([$transactionId, $subtotal, $tax, $total, $payment, $change, $cashier]);
+        $saleId = $db->lastInsertId();
+        
+        foreach ($cart as $item) {
+            $code = $item["code"];
+            $quantity = $item["quantity"];
 
-                // Check current stock
-                $stmt = $db->prepare(
-                    "SELECT quantity, soldQuantity FROM products WHERE code = ?",
-                );
-                $stmt->execute([$code]);
-                $product = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Check current stock
+            $stmt = $db->prepare(
+                "SELECT quantity, soldQuantity, name, price FROM products WHERE code = ?",
+            );
+            $stmt->execute([$code]);
+            $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                if (!$product) {
-                    throw new Exception("Product not found: $code");
-                }
-
-                if ($product["quantity"] < $quantity) {
-                    throw new Exception(
-                        "Insufficient stock for product: $code",
-                    );
-                }
-
-                // Update quantities
-                $newQuantity = $product["quantity"] - $quantity;
-                $newSoldQuantity = $product["soldQuantity"] + $quantity;
-
-                $stmt = $db->prepare(
-                    "UPDATE products SET quantity = ?, soldQuantity = ? WHERE code = ?",
-                );
-                $stmt->execute([$newQuantity, $newSoldQuantity, $code]);
+            if (!$product) {
+                throw new Exception("Product not found: $code");
             }
 
-            $db->commit();
-            $message = "Sale processed successfully!";
-        } catch (Exception $e) {
-            $db->rollBack();
-            $success = false;
-            $message = $e->getMessage();
+            if ($product["quantity"] < $quantity) {
+                throw new Exception(
+                    "Insufficient stock for product: $code",
+                );
+            }
+
+            // Update quantities
+            $newQuantity = $product["quantity"] - $quantity;
+            $newSoldQuantity = $product["soldQuantity"] + $quantity;
+
+            $stmt = $db->prepare(
+                "UPDATE products SET quantity = ?, soldQuantity = ? WHERE code = ?",
+            );
+            $stmt->execute([$newQuantity, $newSoldQuantity, $code]);
+            
+            // Insert into sales_items table
+            $itemSubtotal = $product["price"] * $quantity;
+            $stmt = $db->prepare(
+                "INSERT INTO sales_items (sale_id, transaction_id, product_code, product_name, unit_price, quantity, subtotal) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?)"
+            );
+            $stmt->execute([$saleId, $transactionId, $code, $product["name"], $product["price"], $quantity, $itemSubtotal]);
         }
 
-        echo json_encode(["success" => $success, "message" => $message]);
-        exit();
+        $db->commit();
+        $message = "Sale processed successfully! Transaction ID: " . $transactionId;
+    } catch (Exception $e) {
+        $db->rollBack();
+        $success = false;
+        $message = $e->getMessage();
     }
+
+    echo json_encode(["success" => $success, "message" => $message]);
+    exit();
+}
 
     if ($_POST["action"] === "check_stock") {
         $code = $_POST["code"];

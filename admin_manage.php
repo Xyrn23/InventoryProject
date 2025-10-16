@@ -251,6 +251,7 @@ $users = $db
 
         <div class="nav-links">
             <a href="dashboard.php">Dashboard</a>
+            <a href="report.php" class="inventory">Sales Report</a>
             <a href="inventory.php">Inventory</a>
             <a href="pos.php">Point of Sale</a>
             <a href="logout.php" style="background: #ff0000;">Logout</a>

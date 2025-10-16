@@ -224,6 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="actions">
             <a href="inventory.php" class="inventory">Show Inventory</a>
             <a href="pos.php" class="inventory">Point of Sale</a>
+            <a href="report.php" class="inventory">Sales Report</a>
             <a href="admin_manage.php" class="inventory">User Management</a>
             <a href="logout.php" class="logout">Logout</a>
         </div>

@@ -449,7 +449,7 @@ body {
 }
 
 .cart-item-price {
-    color: var(--accent-blue);
+    color: var(--text);
     font-weight: bold;
 }
 
@@ -509,7 +509,7 @@ body {
 .change-row span:last-child {
     /* color: #67a6ff; */
     font-size: 1.1em;
-    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    /* text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);  */
 }
 
 .btn-checkout {

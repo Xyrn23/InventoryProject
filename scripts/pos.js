@@ -114,7 +114,7 @@ function updateCartDisplay() {
                             <span class="quantity-display">${item.quantity}</span>
                             <button onclick="updateQuantity('${item.code}', 1)">+</button>
                         </div>
-                        <div class="cart-item-price">₱${subtotal.toFixed(2)}</div>
+                        <div class="cart-item-price">₱${subtotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
                     </div>
                 </div>
             `;
@@ -141,9 +141,9 @@ function calculateTotals() {
   const tax = subtotal * 0.12; // 12% VAT
   const total = subtotal + tax;
 
-  document.getElementById("subtotal").textContent = "₱" + subtotal.toFixed(2);
-  document.getElementById("tax").textContent = "₱" + tax.toFixed(2);
-  document.getElementById("total").textContent = "₱" + total.toFixed(2);
+  document.getElementById("subtotal").textContent = "₱" + subtotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+document.getElementById("tax").textContent = "₱" + tax.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+document.getElementById("total").textContent = "₱" + total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
   return { subtotal, tax, total };
 }
@@ -180,19 +180,19 @@ function calculateChange(totalAmountFromCart) {
 
   if (difference >= 0) {
     // Change due
-    changeElement.textContent = "₱" + difference.toFixed(2);
+    changeElement.textContent = "₱" + difference.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     
     if (difference === 0) {
       changeElement.style.color = "white";
     } else {
-      changeElement.style.color = "#4caf50"; // Green
+      changeElement.style.color = "#044107ff"; // Green
     }
     
     checkoutBtn.disabled = false;
   } else {
     // Shortage / Amount due
-    changeElement.textContent = "-₱" + Math.abs(difference).toFixed(2);
-    changeElement.style.color = "#f44336"; // Red
+   changeElement.textContent = "-₱" + Math.abs(difference).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    changeElement.style.color = "#a30b00ff"; // Red
     checkoutBtn.disabled = true;
   }
 }
@@ -201,7 +201,7 @@ function calculateChange(totalAmountFromCart) {
 async function processSale() {
   const paymentInput = document.getElementById("payment");
   const payment = parseFloat(paymentInput.value) || 0;
-  const { total } = calculateTotals();
+  const { subtotal, tax, total } = calculateTotals(); // Get all values including subtotal and tax
 
   if (payment < total) {
     showErrorModal("Insufficient payment amount");
@@ -213,6 +213,9 @@ async function processSale() {
     return;
   }
 
+  // Calculate change
+  const change = payment - total;
+
   // Disable checkout button during processing
   const checkoutBtn = document.getElementById("checkoutBtn");
   checkoutBtn.disabled = true;
@@ -222,6 +225,12 @@ async function processSale() {
     const formData = new FormData();
     formData.append("action", "process_sale");
     formData.append("cart", JSON.stringify(cart));
+    // ADD THESE LINES - Send payment data to PHP
+    formData.append("subtotal", subtotal.toFixed(2));
+    formData.append("tax", tax.toFixed(2));
+    formData.append("total", total.toFixed(2));
+    formData.append("payment", payment.toFixed(2));
+    formData.append("change", change.toFixed(2));
 
     const response = await fetch("pos.php", {
       method: "POST",
@@ -231,7 +240,6 @@ async function processSale() {
     const result = await response.json();
 
     if (result.success) {
-      const change = payment - total;
       showSuccessModal(
         `Sale completed successfully!<br>` +
           `Total: ₱${total.toFixed(2)}<br>` +
