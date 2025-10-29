@@ -5,13 +5,12 @@
   channel = "stable-24.05"; # or "unstable"
 
   # Use https://search.nixos.org/packages to find packages
-  packages = [
-    # pkgs.go
-    # pkgs.python311
-    # pkgs.python311Packages.pip
-    # pkgs.nodejs_20
-    # pkgs.nodePackages.nodemon
-  ];
+packages = [
+  pkgs.php
+  pkgs.php82Packages.composer
+  pkgs.sqlite-interactive # This is the correct way
+];
+
 
   # Sets environment variables in the workspace
   env = {};

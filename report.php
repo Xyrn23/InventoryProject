@@ -118,9 +118,15 @@ $productSales = array_column($topProducts, 'units_sold');
         <a href="?filter=month" class="filter-btn <?php echo $filter === 'month' ? 'active' : ''; ?>">Month</a>
         <a href="?filter=year" class="filter-btn <?php echo $filter === 'year' ? 'active' : ''; ?>">Year</a>
     </div>
-    <button onclick="printReport()" class="print-btn">
-        <span>📄</span> Print / Export PDF
-    </button>
+        <div class="print-transac">
+            <button onclick="" class="transac-btn">
+            <a href="transaction.php">Transaction Report</a>
+                </button>
+                <button onclick="printReport()" class="print-btn">
+            <span>📄</span> Print / Export PDF
+                </button>
+        </div>
+    
 </div>
 
         <!-- Summary Cards -->
@@ -152,36 +158,6 @@ $productSales = array_column($topProducts, 'units_sold');
             </div>
         </div>
 
-        <!-- Recent Transactions Table -->
-        <div class="transactions-section">
-            <h2>Recent Transactions</h2>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Transaction ID</th>
-                            <th>Date</th>
-                            <th>Total</th>
-                            <th>Cashier</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $recentQuery = "SELECT * FROM sales ORDER BY sale_date DESC LIMIT 20";
-                        $recent = $db->query($recentQuery)->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($recent as $sale):
-                        ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($sale['transaction_id']); ?></td>
-                            <td><?php echo date('M d, Y H:i', strtotime($sale['sale_date'])); ?></td>
-                            <td>₱<?php echo number_format($sale['total_amount'], 2); ?></td>
-                            <td><?php echo htmlspecialchars($sale['cashier_name']); ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 
     <script>
