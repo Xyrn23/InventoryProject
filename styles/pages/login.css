@@ -1,0 +1,86 @@
+@import '../base/base.css';
+@import '../base/components/form.css';
+@import '../base/components/button.css';
+
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff0000;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.13);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.2px);
+    -webkit-backdrop-filter: blur(5.2px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.login__title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.login__field {
+    position: relative;
+    width: 100%;
+    margin: 12px 0;
+}
+
+.login__input {
+    width: 90%;
+    padding: 12px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background: transparent;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.login__input:focus {
+    outline: none;
+    border-bottom: 2px solid #67a6ff;
+}
+
+.login__label {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    color: #bbb;
+    pointer-events: none;
+    transition: 0.2s ease all;
+}
+
+.login__input:focus + .login__label,
+.login__input:not(:placeholder-shown) + .login__label {
+    top: -8px;
+    left: 8px;
+    font-size: 0.8rem;
+    color: #67a6ff;
+    background: #1b2845;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+@import '../base/components/background-logo.css';

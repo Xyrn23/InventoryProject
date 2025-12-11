@@ -1,0 +1,122 @@
+@import '../base/components/background-logo.css';
+@import '../base/base.css';
+@import '../base/components/button.css';
+@import '../base/components/card.css';
+@import '../base/components/form.css';
+
+.header-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th {
+    background: var(--input-bg);
+    padding: 12px;
+    text-align: left;
+    font-weight: 600; /* Keep 600 for table headers */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.users-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.users-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.badge-admin {
+    background: rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.5);
+}
+
+.badge-cashier {
+    background: rgba(33, 150, 243, 0.3);
+    border: 1px solid rgba(33, 150, 243, 0.5);
+}
+
+.current-user {
+    background: rgba(255, 193, 7, 0.3);
+    border: 1px solid rgba(255, 193, 7, 0.5);
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-form {
+    display: inline-block;
+}
+
+.nav-links {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    background: var(--dark-blue);
+    border-radius: 6px;
+    margin: 0 5px;
+    display: inline-block;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    background: var(--primary-blue-hover);
+    border-color: var(--primary-blue-hover);
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .users-table {
+        font-size: 0.9em;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions button {
+        width: 100%;
+    }
+}

@@ -1,0 +1,41 @@
+@import '../variables.css';
+
+button {
+    padding: 10px 20px;
+    background: var(--dark-blue);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: var(--primary-blue-hover);
+}
+
+.btn-danger {
+    background: var(--danger-red);
+}
+
+.btn-danger:hover {
+    background: var(--danger-red-hover);
+}
+
+.btn-secondary {
+    background: var(--secondary-gray);
+}
+
+.btn-secondary:hover {
+    background: var(--secondary-gray-hover);
+}
+
+.btn-logout {
+    background: var(--logout-bg) !important;
+    border-color: var(--logout-border) !important;
+}
+
+.btn-logout:hover {
+    background: var(--logout-hover-bg) !important;
+}

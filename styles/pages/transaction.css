@@ -1,0 +1,78 @@
+@import '../base/components/background-logo.css';
+@import '../base/base.css';
+@import '../base/components/button.css';
+
+.report-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.transactions-section {
+    background: var(--glass-bg);
+    backdrop-filter: blur(5.2px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.transactions-section h2 {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th {
+    font-weight: 900;
+    color: #ffffff;
+}
+
+tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.back-btn {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.back-btn a {
+    color: white;
+    text-decoration: none;
+}
